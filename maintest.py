@@ -11,14 +11,22 @@ def input():
 	return command
 
 def main():
-	usercommand = input()
-	choices = ["dishwashing", "making bed", "taking out trash", "vacuuming", "cooking food", "doing laundry"]
-	print(process.extract(usercommand, choices, limit=8))
-	
-	#print(fuzz.ratio("damsuga", "dammsuga"))
-	#choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
-	#print(process.extract("new york jets", choices, limit=8))
-    #print(process.extractOne("cowboys", choices))
+	switch = 1
+
+	while(switch == 1):
+		usercommand = input()
+		choices = ["wash dishes", "making bed", "taking out trash", "vacuuming", "cooking food", "doing laundry", "dusting", "lawn mowing"]
+		print(process.extract(usercommand, choices, limit=8))
+		results = process.extract(usercommand, choices, limit=8)
+		match = results[0]
+		print("\n")
+		print("Your input matches this command:")
+		print(match[0])
+		print("\n" + "Exit program? (y / n)")
+		userexit = raw_input()	
+		if userexit == "y":
+			switch = 0
+
 	return 
     
 if __name__ == '__main__':
