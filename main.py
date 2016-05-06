@@ -1,7 +1,8 @@
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import sys
-import commandClasses
+import json
+from pprint import pprint
 
 #Handling the exit of the program when it should be exited
 def handleExit():
@@ -15,7 +16,7 @@ def inputCommand():
     if (command == "exit"):
         handleExit()
     elif (isinstance(command, basestring)):
-        return command
+        return command.lower()
     else:
         print "Enter a string: "
 
@@ -30,6 +31,22 @@ def correctHelperForAnswer():
             return
         else:
             print "Please type Y or N"
+
+#load the Jsonfile and try it against the input string
+def getKeyAndValueFromJson(input_string):
+
+    with open('commands.json') as json_file:
+        data = json.load(json_file)
+
+        for key in data.items():
+            current_key = key[0]
+
+            for value in key[1]:
+                if (value == input_string):
+                    print "\n" + value + " " + "will be done Sir!"
+                    return True
+
+        return False
 
 #Check if this is what the user wanted with the command
 def correctChore():
@@ -49,14 +66,18 @@ def correctChore():
 #Check the type of household chore
 def checkChore():
     #TODO:input algorithm to filter the sentence from unneccessary words.
+    #TODO: check wheter the command exists in jsonfile, and then run it
+    #else run the algorithm
     commands = ["washing the dishes", "making bed", "taking out trash", "vacuuming",
                 "cooking food", "doing laundry", "dusting", "lawn mowing"]
 
     input_string = inputCommand()
 
-    result = (process.extract(input_string, commands, limit=8))
-
-    return result
+    if (getKeyAndValueFromJson(input_string) == False):
+        result = (process.extract(input_string, commands, limit=8))
+        return result
+    else:
+       correctChore()
 
 def main():
 
