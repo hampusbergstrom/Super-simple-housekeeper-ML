@@ -1,6 +1,6 @@
 # IISIMAGEN
 
-INSTALL THESE -->
+#INSTALL THESE -->
 
-sudo pip install fuzzywuzzy
-sudo pip install python-Levenshtein
+#sudo pip install fuzzywuzzy
+#sudo pip install python-Levenshtein
