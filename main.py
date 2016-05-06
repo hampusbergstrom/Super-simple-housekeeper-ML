@@ -23,14 +23,14 @@ def inputCommand():
 #Subfunction checking what user actually intended with the command
 def correctHelperForAnswer():
 
-        answer = raw_input("Input: Y/N \n")
+        answer = raw_input("Input: y/n \n")
 
-        if (answer == "Y"):
+        if (answer == "y"):
             return "correctCommand"
-        elif (answer == "N"):
+        elif (answer == "n"):
             return
         else:
-            print "Please type Y or N"
+            print "Please type y or n"
 
 #load the Jsonfile and try it against the input string
 def getKeyAndValueFromJson(input_string):
