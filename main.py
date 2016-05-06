@@ -94,7 +94,10 @@ def checkChore():
                 "cook food", "do laundry", "do some dusting ", "mow the lawn"]
 
     input_string = inputCommand()
-    
+    resetinput = input_string
+    if(resetinput == "resetdb"):    
+        resetDB()
+        return
     #Checks directly if command matches the default commands
     for command in commands:
         if input_string == command:
@@ -106,6 +109,20 @@ def checkChore():
         return (result, input_string)
     else:
        correctChore()
+
+def resetDB():
+            #Reads database file
+            with open('commandsbackupreplacement.json', 'r') as json_file:
+                resetdata = json.load(json_file)
+                json_file.close()
+
+            #Writes default data to database
+            with open('commands.json', 'w') as json_file:
+                json_file.write(json.dumps(resetdata))
+                json_file.close()
+
+            print "Database has been reset!"
+            return correctChore()  
 
 def main():
 
