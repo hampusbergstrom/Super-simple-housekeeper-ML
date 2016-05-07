@@ -4,6 +4,12 @@ import sys
 import json
 from pprint import pprint
 
+global commands
+
+commands = ["wash the dishes", "make the bed", "take out the trash", "vacuum the floor",
+            "cook food", "do laundry", "do some dusting ", "mow the lawn"]
+
+
 #Handling the exit of the program when it should be exited
 def handleExit():
     sys.exit()
@@ -19,6 +25,29 @@ def inputCommand():
         return command.lower()
     else:
         print "Enter a string: "
+
+#Check whether a reset command for the DB has been made by user input
+def checkResetDatabaseCommand(resetinput):
+
+    if (resetinput == "resetdb"):
+        resetDB()
+        return
+
+#CHeck whether exact input already exists in the json database
+def checkUserInputToJson(input_string):
+
+    for command in commands:
+        if input_string == command:
+            print "\n" + input_string + " " + "will be done Sir!"
+            return correctChore()
+
+#Wrapping all of the input type functions to one single function
+def getInputAndCheckIntention():
+
+    input_string = inputCommand()
+    checkResetDatabaseCommand(input_string)
+    checkUserInputToJson(input_string)
+    return input_string
 
 #Subfunction checking what user actually intended with the command
 def correctHelperForAnswer():
@@ -59,7 +88,7 @@ def correctChore():
         print("Is this what you intended? \n")
         if (correctHelperForAnswer() == "correctCommand"):
             #TODO:Save starting input from user to the loadfile
-            
+
             #Reads database file
             with open('commands.json', 'r') as json_file:
                 data = json.load(json_file)
@@ -80,33 +109,20 @@ def correctChore():
             with open('commands.json', 'r') as json_file:
                 data2 = json.load(json_file)
                 print "\n", data2[match_result[0]][len(data2[match_result[0]]) - 1]
-                json_file.close()        
-            
-            break
+                json_file.close()
+            checkChore()
         print("Trying next chore..")
 
 #Check the type of household chore
 def checkChore():
     #TODO:input algorithm to filter the sentence from unneccessary words.
-    #TODO: check wether the command exists in jsonfile, and then run it
-    #else run the algorithm
-    commands = ["wash the dishes", "make the bed", "take out the trash", "vacuum the floor",
-                "cook food", "do laundry", "do some dusting ", "mow the lawn"]
 
-    input_string = inputCommand()
-    resetinput = input_string
-    if(resetinput == "resetdb"):    
-        resetDB()
-        return
-    #Checks directly if command matches the default commands
-    for command in commands:
-        if input_string == command:
-            print "\n" + input_string + " " + "will be done Sir!"
-            return correctChore()
+    input_string = getInputAndCheckIntention()
 
     if (getKeyAndValueFromJson(input_string) == False):
         result = (process.extract(input_string, commands, limit=8))
         return (result, input_string)
+        correctChore()
     else:
        correctChore()
 
@@ -122,12 +138,11 @@ def resetDB():
                 json_file.close()
 
             print "Database has been reset!"
-            return correctChore()  
+            return correctChore()
 
 def main():
 
-    while True:
-        correctChore()
+    correctChore()
 
 if __name__=='__main__':
     main()
