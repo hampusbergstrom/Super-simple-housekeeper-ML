@@ -20,7 +20,7 @@ def getKeyAndValueFromJson(input_string):
 
     return False
 
-#Check if this is what the user wanted with the command
+#Check if this is what the user intended with the command
 def correctChore():
 
     input_result = checkChore()
@@ -39,17 +39,16 @@ def correctChore():
 
 #Check the type of household chore
 def checkChore():
-    #TODO:input algorithm to filter the sentence from unneccessary words.
 
     input_string = getInputAndCheckIntention()
+
+    #TODO:input algorithm to filter the sentence from unneccessary words.
 
     if (getKeyAndValueFromJson(input_string) == False):
         result = (process.extract(input_string, commands, limit=8))
         return (result, input_string)
-        correctChore()
-    else:
-       correctChore()
 
+    correctChore()
 
 def startRobot():
     correctChore()

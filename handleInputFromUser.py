@@ -2,6 +2,7 @@ import sys
 import json
 from pprint import pprint
 from databaseFunctions import *
+
 global commands
 
 commands = ["wash the dishes", "make the bed", "take out the trash", "vacuum the floor",

@@ -1,18 +1,1 @@
-{
-  "wash the dishes" : ["can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please"],
-  
-  "make the bed" : ["can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?"],
-  
-  "take out the trash" : ["take out the trash", "can you throw the trash out?", "can you empty the bin?",
-  "throw away the garbage please.", "can you take out the trash?"],
-  
-  "vacuum the floor" : ["can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room"],
-  
-  "cook food" : ["can you make me some food?", "do some cooking please", "can you prepare a meal?", "arrange some cooking por favor"],
-  
-  "do laundry" : ["do the laundry!", "clean my clothes please", "please take care of my laundry"],
-  
-  "do some dusting" : ["can you remove all the dust from the shelves?", "do some dusting", "dust dust dust"],
-  
-  "mow the lawn" : ["cut the grass", "mow the lawn"]
-}
+{"take out the trash": ["take out the trash", "can you throw the trash out?", "can you empty the bin?", "throw away the garbage please.", "can you take out the trash?", "wash", "yea", "dish1"], "do some dusting": ["can you remove all the dust from the shelves?", "do some dusting", "dust dust dust"], "cook food": ["can you make me some food?", "do some cooking please", "can you prepare a meal?", "arrange some cooking por favor", "loooool", "looooool", "lloll"], "vacuum the floor": ["can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room", "lolol", "lololl", "lollll", "lolll", "uuuu", "loolll", "loll", "loool", "lool", "lo1l", "lloll"], "wash the dishes": ["can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please", "wash", "does wash", "dish", "dishh", "dish1", "dish2", "dish3"], "mow the lawn": ["cut the grass", "mow the lawn", "ll", "n"], "do laundry": ["do the laundry!", "clean my clothes please", "please take care of my laundry", "lol", "y", "lololl", "lloll", "dog"], "make the bed": ["can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?", "yea"]}
