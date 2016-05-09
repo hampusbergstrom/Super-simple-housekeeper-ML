@@ -26,12 +26,13 @@ def correctChore():
     input_result = checkChore()
     for i in range(0, len(input_result[0])):
         match_result = input_result[0][i]
-
         print("\n Your input matches this result: " + match_result[0] + "\n")
         print("Is this what you intended? \n")
         if (correctHelperForAnswer() == "correctCommand"):
 
             inputToDatabaseHandler(match_result, input_result)
+
+            print input_result
 
             checkChore()
 
@@ -48,7 +49,7 @@ def checkChore():
         result = (process.extract(input_string, commands, limit=8))
         return (result, input_string)
 
-    correctChore()
+    return correctChore()
 
 def startRobot():
     correctChore()
