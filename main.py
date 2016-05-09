@@ -1,65 +1,8 @@
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
-import sys
 import json
-from pprint import pprint
-
-global commands
-
-commands = ["wash the dishes", "make the bed", "take out the trash", "vacuum the floor",
-            "cook food", "do laundry", "do some dusting ", "mow the lawn"]
-
-
-#Handling the exit of the program when it should be exited
-def handleExit():
-    sys.exit()
-
-#Saving input if it is a string
-def inputCommand():
-
-    command = raw_input("Enter command, exit to close: ")
-
-    if (command == "exit"):
-        handleExit()
-    elif (isinstance(command, basestring)):
-        return command.lower()
-    else:
-        print "Enter a string: "
-
-#Check whether a reset command for the DB has been made by user input
-def checkResetDatabaseCommand(resetinput):
-
-    if (resetinput == "resetdb"):
-        resetDB()
-        return
-
-#CHeck whether exact input already exists in the json database
-def checkUserInputToJson(input_string):
-
-    for command in commands:
-        if input_string == command:
-            print "\n" + input_string + " " + "will be done Sir!"
-            return correctChore()
-
-#Wrapping all of the input type functions to one single function
-def getInputAndCheckIntention():
-
-    input_string = inputCommand()
-    checkResetDatabaseCommand(input_string)
-    checkUserInputToJson(input_string)
-    return input_string
-
-#Subfunction checking what user actually intended with the command
-def correctHelperForAnswer():
-
-        answer = raw_input("Input: y/n \n")
-
-        if (answer == "y"):
-            return "correctCommand"
-        elif (answer == "n"):
-            return
-        else:
-            print "Please type y or n"
+from handleInputFromUser import *
+from databaseFunctions import inputToDatabaseHandler
 
 #load the Jsonfile and try it against the input string
 def getKeyAndValueFromJson(input_string):
@@ -87,30 +30,11 @@ def correctChore():
         print("\n Your input matches this result: " + match_result[0] + "\n")
         print("Is this what you intended? \n")
         if (correctHelperForAnswer() == "correctCommand"):
-            #TODO:Save starting input from user to the loadfile
 
-            #Reads database file
-            with open('commands.json', 'r') as json_file:
-                data = json.load(json_file)
-                json_file.close()
+            inputToDatabaseHandler(match_result, input_result)
 
-            #Appends new user_command to json data
-            data[match_result[0]].append(input_result[1])
-
-            #prints data of selected command class
-            print data[match_result[0]]
-
-            #Writes new data to database file
-            with open('commands.json', 'w') as json_file:
-                json_file.write(json.dumps(data))
-                json_file.close()
-
-            #Reads database file to check if the new command was written to file
-            with open('commands.json', 'r') as json_file:
-                data2 = json.load(json_file)
-                print "\n", data2[match_result[0]][len(data2[match_result[0]]) - 1]
-                json_file.close()
             checkChore()
+
         print("Trying next chore..")
 
 #Check the type of household chore
@@ -126,23 +50,13 @@ def checkChore():
     else:
        correctChore()
 
-def resetDB():
-            #Reads database file
-            with open('commandsbackupreplacement.json', 'r') as json_file:
-                resetdata = json.load(json_file)
-                json_file.close()
 
-            #Writes default data to database
-            with open('commands.json', 'w') as json_file:
-                json_file.write(json.dumps(resetdata))
-                json_file.close()
-
-            print "Database has been reset!"
-            return correctChore()
+def startRobot():
+    correctChore()
 
 def main():
 
-    correctChore()
+    startRobot()
 
 if __name__=='__main__':
     main()
