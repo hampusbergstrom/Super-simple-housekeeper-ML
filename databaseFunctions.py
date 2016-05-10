@@ -1,5 +1,5 @@
 import json
-
+import re
 #Reset the database input values saved from users over time
 def resetDB():
             #Reads database file
@@ -66,3 +66,46 @@ def inputToDatabaseHandler(match_result, input_result):
     writeCorrectInputToDatabase(match_result, input_result)
     confirmationOfDatabaseInput(match_result)
 
+#Populates the initial ignorelist based on database
+def initializeIgnoreList():
+
+    #resetDB()
+    commands = openDatabaseFile()
+
+    #Loads file
+    with open ('ignorelist.json', 'r') as json_file:
+        ignoredata = json.load(json_file)
+        json_file.close()
+
+    wordSet = set()
+
+    #Filters words
+    for i in commands:
+        currentSet = set()
+
+        for j in commands[i]:
+            wordList = re.sub("[^\w]", " ",  j).split()
+
+            for word in wordList:
+                if (word not in ignoredata["list"]):
+                    currentSet.add(word)
+
+        for word in currentSet:
+            if (word in wordSet):
+                ignoredata["list"].append(word)
+            else:
+                wordSet.add(word)
+
+    #Saves file
+    with open('ignoreList.json', 'w') as json_file:
+        json_file.write(json.dumps(ignoredata))
+        json_file.close()
+
+#Fetches the list of ignored words
+def getIgnoreList():
+
+    with open ('ignorelist.json', 'r') as json_file:
+        data = json.load(json_file)
+        print(data)
+        return data
+        json_file.close()
