@@ -36,13 +36,6 @@ def inputCommand():
     else:
         print "Enter a string: "
 
-#Check whether a reset command for the DB has been made by user input
-def checkResetDatabaseCommand(resetinput):
-
-    if (resetinput == "resetdb"):
-        resetDB()
-        return
-
 #Check whether exact input already exists in the json database
 def checkUserInputToJson(input_string):
 
@@ -56,6 +49,12 @@ def checkUserInputToJson(input_string):
 def getInputAndCheckIntention():
 
     input_string = inputCommand()
-    checkResetDatabaseCommand(input_string)
-    checkUserInputToJson(input_string)
-    return input_string
+
+    if (input_string == "resetdb"):
+        resetDB()
+        return "resetdb"
+    else:
+        checkUserInputToJson(input_string)
+        return input_string
+
+

@@ -13,7 +13,6 @@ def resetDB():
                 json_file.close()
 
             print "Database has been reset!"
-            return correctChore()
 
 #Reads database file
 def openDatabaseFile():
@@ -42,6 +41,7 @@ def confirmationOfDatabaseInput(match_result):
         print "\n", data2[match_result[0]][len(data2[match_result[0]]) - 1]
         json_file.close()
     return
+
 #Wrapping the write to database functions
 def inputToDatabaseHandler(match_result, input_result):
 
