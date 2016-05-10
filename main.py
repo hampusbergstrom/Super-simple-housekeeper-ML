@@ -35,10 +35,8 @@ def correctChore(input_result):
 
             return True
 
-       # print("Trying next chore..")
-
 #Check the type of household chore
-def checkChore():
+def whatTypeOfChore():
 
     #TODO:input algorithm to filter the sentence from unneccessary words.
 
@@ -56,7 +54,7 @@ def checkChore():
 #Make logic run
 def startHouseholdRobot():
 
-    input_result = checkChore()
+    input_result = whatTypeOfChore()
 
     if (input_result == True):
         return True
