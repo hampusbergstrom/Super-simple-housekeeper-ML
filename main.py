@@ -4,6 +4,7 @@ import json
 from handleInputFromUser import *
 from databaseFunctions import inputToDatabaseHandler
 
+
 #load the Jsonfile and try it against the input string
 def getKeyAndValueFromJson(input_string):
 
@@ -34,6 +35,10 @@ def correctChore(input_result):
             inputToDatabaseHandler(match_result, input_result)
 
             return True
+
+        print "Trying next chore...\n"
+
+    print "Please try another type or chore....\n"
 
 #Check the type of household chore
 def whatTypeOfChore():
