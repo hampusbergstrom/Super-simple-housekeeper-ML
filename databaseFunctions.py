@@ -27,7 +27,14 @@ def writeCorrectInputToDatabase(match_result, input_result):
 
     data = openDatabaseFile()
 
-    data[match_result[0]].append(input_result[1])
+    if match_result[0] == "do some dusting ":
+        newarray = ""
+        for i in range(0, len(match_result[0])-1):
+            newarray += match_result[0][i]
+        data[newarray].append(input_result[1])
+
+    else:
+        data[match_result[0]].append(input_result[1])
 
     with open('commands.json', 'w') as json_file:
         json_file.write(json.dumps(data))
@@ -35,12 +42,23 @@ def writeCorrectInputToDatabase(match_result, input_result):
 
 #Reads database file to check if the new command was written to file
 def confirmationOfDatabaseInput(match_result):
+    
+    if match_result[0] == "do some dusting ":
+        newarray = ""
+        for i in range(0, len(match_result[0])-1):
+            newarray += match_result[0][i]
 
-    with open('commands.json', 'r') as json_file:
-        data2 = json.load(json_file)
-        print "\n", data2[match_result[0]][len(data2[match_result[0]]) - 1]
-        json_file.close()
-    return
+        with open('commands.json', 'r') as json_file:
+            data2 = json.load(json_file)
+            print "\n", data2[newarray][len(data2[newarray]) - 1]
+            json_file.close()
+        return
+    else:
+        with open('commands.json', 'r') as json_file:
+            data2 = json.load(json_file)
+            print "\n", data2[match_result[0]][len(data2[match_result[0]]) - 1]
+            json_file.close()
+        return
 
 #Wrapping the write to database functions
 def inputToDatabaseHandler(match_result, input_result):
