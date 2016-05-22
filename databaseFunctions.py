@@ -47,6 +47,16 @@ def writeCorrectInputToDatabase(match_result, input_result):
         json_file.write(json.dumps(data))
         json_file.close()
 
+#Append and write input from user to database
+def writeToDatabase(input_string, classnumber):
+    data = openDatabaseFileCLF("X_train.json")
+
+    data[classnumber].append(input_string)
+
+    with open('X_train.json', 'w') as json_file:
+        json_file.write(json.dumps(data, indent=2))
+        json_file.close()
+
 #Reads database file to check if the new command was written to file
 def confirmationOfDatabaseInput(match_result):
     

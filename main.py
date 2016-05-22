@@ -130,10 +130,14 @@ def whatTypeOfChore():
         clf3.fit(X_train, y_train)
 
         resultLabel3 = clf3.predict(vectorizer.transform([input_string]))
+         
 
         print 'predict label: ', resultLabel3
         print 'predict label name: ', y_train_labels[resultLabel3[0]]
         print 'predict probabilities for KNN',  clf3.predict_proba(vectorizer.transform([input_string]))
+
+        #Writes input_string to correct class in database
+        writeToDatabase(input_string, str(resultLabel3[0]))
 
         return True
 
