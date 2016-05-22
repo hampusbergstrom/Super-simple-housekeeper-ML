@@ -111,6 +111,7 @@ def whatTypeOfChore():
         #Writes input_string to correct class in database
         if  (correctHelperForAnswer() == "correctCommand"):
             writeToDatabase(input_result[0], str(resultLabel[0]))
+            print "\n" + input_result[0] + " " + "will be done Sir!"
         return True
 
 #Make logic run

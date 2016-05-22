@@ -9,7 +9,7 @@ def resetDB():
 
             #Writes default data to database
             with open('X_train.json', 'w') as json_file:
-                json_file.write(json.dumps(resetdata))
+                json_file.write(json.dumps(resetdata, indent=2))
                 json_file.close()
 
             print "Database has been reset!"
