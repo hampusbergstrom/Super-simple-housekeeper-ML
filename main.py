@@ -3,6 +3,13 @@ from fuzzywuzzy import process
 import json
 from handleInputFromUser import *
 from databaseFunctions import inputToDatabaseHandler
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import linear_model
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 #load the Jsonfile and try it against the input string
@@ -50,11 +57,64 @@ def whatTypeOfChore():
     if (input_string == "resetdb"):
         return True
     else:
-        if (getKeyAndValueFromJson(input_string) == False):
-            result = (process.extract(input_string, commands, limit=8))
-            return (result, input_string)
-        else:
-            return True
+
+        #instantiate classifier and vectorizer
+        clf = MultinomialNB(alpha = 0.01)
+        #vectorizer = TfidfVectorizer(min_df = 1, ngram_range = (1, 2))
+
+        vectorizer = CountVectorizer(analyzer = "word",
+                                        tokenizer = None,
+                                        preprocessor = None,
+                                        stop_words = None,
+                                        max_features = 1000)
+
+        #Apply vectorizer to training data
+        training_set = ["wash the dishes", "can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please",
+                    "make the bed", "can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?",
+                    "take out the trash", "can you throw the trash out?", "can you empty the bin?",
+                    "vacuum the floor", "can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room",
+                    "cook food", "can you make me some food?", "do some cooking please", "can you prepare a meal?", "arrange some cooking por favor",
+                    "do laundry", "do the laundry!", "clean my clothes please", "please take care of my laundry",
+                    "do some dusting", "can you remove all the dust from the shelves?", "do some dusting", "dust dust dust",
+                    "mow the lawn", "cut the grass", "mow the lawn"]
+
+        X_train = vectorizer.fit_transform(training_set)
+
+        #Labels
+        y_train_labels = [(0, 'wash the dishes'), (1, 'make the bed'), (2, 'take out the trash'), (3, 'vacuum the floor'), (4, 'cook food'), (5, 'do laundry'), (6, 'do some dust'), (7, 'mow the lawn')]
+
+        #Label Ids
+        y_train = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7 ,7];
+
+        #Train classifier
+        clf.fit(X_train, y_train)
+
+        #Predict string
+#        print 'Enter input string: \n'
+#        input_string = raw_input()
+
+        #Array result with label ID
+        resultLabel = clf.predict(vectorizer.transform([input_string]))
+
+        #Printing result
+        print "\n## PREDICTING INPUT STRING WITH NAIVE BAYES ALGORITHM##\n"
+
+        print 'input string: ', input_string + "\n"
+        print 'predict label ID: ', resultLabel
+        print 'predict label name: ', y_train_labels[resultLabel[0]]
+
+        print "\n\n## PREDICTING INPUT STRING WITH KNN ALGORITHM ##\n"
+
+        clf3 = KNeighborsClassifier(n_neighbors = 10)
+
+        clf3.fit(X_train, y_train)
+
+        resultLabel3 = clf3.predict(vectorizer.transform([input_string]))
+
+        print 'predict label: ', resultLabel3
+        print 'predict label name: ', y_train_labels[resultLabel3[0]]
+
+        return True
 
 #Make logic run
 def startHouseholdRobot():
