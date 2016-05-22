@@ -3,24 +3,16 @@ import re
 #Reset the database input values saved from users over time
 def resetDB():
             #Reads database file
-            with open('commandsbackupreplacement.json', 'r') as json_file:
+            with open('X_train_backup.json', 'r') as json_file:
                 resetdata = json.load(json_file)
                 json_file.close()
 
             #Writes default data to database
-            with open('commands.json', 'w') as json_file:
+            with open('X_train.json', 'w') as json_file:
                 json_file.write(json.dumps(resetdata))
                 json_file.close()
 
             print "Database has been reset!"
-
-#Reads database file
-def openDatabaseFile():
-
-    with open('commands.json', 'r') as json_file:
-        data = json.load(json_file)
-        return data
-        json_file.close()
 
 #Reads database file
 def openDatabaseFileCLF(filename):
@@ -59,7 +51,7 @@ def writeToDatabase(input_string, classnumber):
 
 #Reads database file to check if the new command was written to file
 def confirmationOfDatabaseInput(match_result):
-    
+
     if match_result[0] == "do some dusting ":
         newarray = ""
         for i in range(0, len(match_result[0])-1):
@@ -87,7 +79,7 @@ def inputToDatabaseHandler(match_result, input_result):
 def initializeIgnoreList():
 
     #resetDB()
-    commands = openDatabaseFile()
+    commands = openDatabaseFileCLF('X_train.json')
 
     #Loads file
     with open ('ignorelist.json', 'r') as json_file:

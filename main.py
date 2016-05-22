@@ -1,5 +1,3 @@
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
 import json
 from handleInputFromUser import *
 from databaseFunctions import inputToDatabaseHandler
@@ -10,7 +8,6 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn import linear_model
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import CountVectorizer
-
 
 #load the Jsonfile and try it against the input string
 def getKeyAndValueFromJson(input_string):
@@ -28,36 +25,17 @@ def getKeyAndValueFromJson(input_string):
 
     return False
 
-#Check if this is what the user intended with the command
-def correctChore(input_result):
-
-    for i in range(0, len(input_result[0])):
-        match_result = input_result[0][i]
-
-        print("\n Your input matches this result: " + match_result[0] + "\n")
-        print("Is this what you intended? \n")
-
-        if (correctHelperForAnswer() == "correctCommand"):
-
-            inputToDatabaseHandler(match_result, input_result)
-
-            return True
-
-        print "Trying next chore...\n"
-
-    print "Please try another type or chore....\n"
-
 #Check the type of household chore
 def whatTypeOfChore():
 
     #TODO:input algorithm to filter the sentence from unneccessary words.
-
     input_string = getInputAndCheckIntention()
 
     if (input_string == "resetdb"):
         return True
     else:
 
+        initializeIgnoreList()
         #instantiate classifier and vectorizer
         clf = MultinomialNB(alpha = 0.01)
         #vectorizer = TfidfVectorizer(min_df = 1, ngram_range = (1, 2))
@@ -65,11 +43,11 @@ def whatTypeOfChore():
         vectorizer = CountVectorizer(analyzer = "word",
                                         tokenizer = None,
                                         preprocessor = None,
-                                        stop_words = None,
+                                        stop_words = getIgnoreList(),
                                         max_features = 1000)
 
         data = openDatabaseFileCLF('X_train.json')
-        
+
         #Initiate training set
         training_set = []
 
@@ -85,22 +63,8 @@ def whatTypeOfChore():
         print training_set
         print y_train
 
-        '''
-        #### OLD TRAINING SET ####
-        #Apply vectorizer to training data
-        training_set_old = ["wash the dishes", "can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please",
-                    "make the bed", "can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?",
-                    "take out the trash", "can you throw the trash out?", "can you empty the bin?",
-                    "vacuum the floor", "can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room",
-                    "cook food", "can you make me some food?", "do some cooking please", "can you prepare a meal?", "arrange some cooking por favor",
-                    "do laundry", "do the laundry!", "clean my clothes please", "please take care of my laundry",
-                    "do some dusting", "can you remove all the dust from the shelves?", "do some dusting", "dust dust dust",
-                    "mow the lawn", "cut the grass", "mow the lawn"]
-        '''
-
         #Apply vectorizer to training data
         X_train = vectorizer.fit_transform(training_set)
-                
 
         #Labels
         y_train_labels = [(0, 'wash the dishes'), (1, 'make the bed'), (2, 'take out the trash'), (3, 'vacuum the floor'), (4, 'cook food'), (5, 'do laundry'), (6, 'do some dust'), (7, 'mow the lawn')]
@@ -108,14 +72,12 @@ def whatTypeOfChore():
         #Train classifier
         clf.fit(X_train, y_train)
 
-        #Predict string
-#        print 'Enter input string: \n'
-#        input_string = raw_input()
-
         #Array result with label ID
         resultLabel = clf.predict(vectorizer.transform([input_string]))
 
         #Printing result
+        print '-----------------------------------------------------------'
+        print 'Prediction for the Naive Bayes algorithm and KNN'
         print "\n## PREDICTING INPUT STRING WITH NAIVE BAYES ALGORITHM##\n"
 
         print 'input string: ', input_string + "\n"
@@ -130,15 +92,21 @@ def whatTypeOfChore():
         clf3.fit(X_train, y_train)
 
         resultLabel3 = clf3.predict(vectorizer.transform([input_string]))
-         
 
         print 'predict label: ', resultLabel3
         print 'predict label name: ', y_train_labels[resultLabel3[0]]
         print 'predict probabilities for KNN',  clf3.predict_proba(vectorizer.transform([input_string]))
 
-        #Writes input_string to correct class in database
-        writeToDatabase(input_string, str(resultLabel3[0]))
 
+        print '----------------------------------------------------------------'
+        print 'Your input was predicted to this result: ', y_train_labels[resultLabel3[0]]
+        print 'Do you want to save this to the database?'
+        print '(Saving to the database means that the exact command written again'
+        print 'instant parses to the command done by the household robot)'
+        print 'Reseting the database can be done with: "resetdb" command'
+        #Writes input_string to correct class in database
+        if  (correctHelperForAnswer() == "correctCommand"):
+            writeToDatabase(input_string, str(resultLabel[0]))
         return True
 
 #Make logic run
@@ -148,8 +116,6 @@ def startHouseholdRobot():
 
     if (input_result == True):
         return True
-    else:
-        correctChore(input_result)
 
 def main():
 
