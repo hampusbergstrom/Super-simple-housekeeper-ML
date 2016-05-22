@@ -22,6 +22,13 @@ def openDatabaseFile():
         return data
         json_file.close()
 
+#Reads database file
+def openDatabaseFileCLF(filename):
+    with open(filename, 'r') as json_file:
+        data = json.load(json_file)
+        return data
+        json_file.close()
+
 #Append and write input from user to database
 def writeCorrectInputToDatabase(match_result, input_result):
 

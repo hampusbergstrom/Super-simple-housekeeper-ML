@@ -68,8 +68,27 @@ def whatTypeOfChore():
                                         stop_words = None,
                                         max_features = 1000)
 
+        data = openDatabaseFileCLF('X_train.json')
+        
+        #Initiate training set
+        training_set = []
+
+        #Initiate y_train (Label Ids)
+        y_train = []
+
+        #Building training_set and y_train
+        for x in range(0, 8):
+            classnumber = str(x)
+            for y in range(0, len(data[classnumber])):
+                y_train.append(x)
+                training_set.append(data[classnumber][y])
+        print training_set
+        print y_train
+
+        '''
+        #### OLD TRAINING SET ####
         #Apply vectorizer to training data
-        training_set = ["wash the dishes", "can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please",
+        training_set_old = ["wash the dishes", "can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please",
                     "make the bed", "can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?",
                     "take out the trash", "can you throw the trash out?", "can you empty the bin?",
                     "vacuum the floor", "can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room",
@@ -77,14 +96,14 @@ def whatTypeOfChore():
                     "do laundry", "do the laundry!", "clean my clothes please", "please take care of my laundry",
                     "do some dusting", "can you remove all the dust from the shelves?", "do some dusting", "dust dust dust",
                     "mow the lawn", "cut the grass", "mow the lawn"]
+        '''
 
+        #Apply vectorizer to training data
         X_train = vectorizer.fit_transform(training_set)
+                
 
         #Labels
         y_train_labels = [(0, 'wash the dishes'), (1, 'make the bed'), (2, 'take out the trash'), (3, 'vacuum the floor'), (4, 'cook food'), (5, 'do laundry'), (6, 'do some dust'), (7, 'mow the lawn')]
-
-        #Label Ids
-        y_train = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7 ,7];
 
         #Train classifier
         clf.fit(X_train, y_train)
@@ -102,6 +121,7 @@ def whatTypeOfChore():
         print 'input string: ', input_string + "\n"
         print 'predict label ID: ', resultLabel
         print 'predict label name: ', y_train_labels[resultLabel[0]]
+        print 'predict probabilities for Naive Bayes',  clf.predict_proba(vectorizer.transform([input_string]))
 
         print "\n\n## PREDICTING INPUT STRING WITH KNN ALGORITHM ##\n"
 
@@ -113,6 +133,7 @@ def whatTypeOfChore():
 
         print 'predict label: ', resultLabel3
         print 'predict label name: ', y_train_labels[resultLabel3[0]]
+        print 'predict probabilities for KNN',  clf3.predict_proba(vectorizer.transform([input_string]))
 
         return True
 

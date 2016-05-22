@@ -1,0 +1,18 @@
+{
+  "0" : ["wash the dishes", "can you please wash the dishes", "please dish me bro", "can you clean up the dishes?", "can you take care of the dishes?", "do the dishes please"],
+  
+  "1" : ["make the bed", "can you make the bed?", "can you change the sheets?", "please make the bed", "can you please make the bed?"],
+  
+  "2" : ["take out the trash", "take out the trash", "can you throw the trash out?", "can you empty the bin?",
+  "throw away the garbage please.", "can you take out the trash?"],
+  
+  "3" : ["vacuum the floor", "can you vacuum the house?", "can you do some vacuuming?", "do you mind bringing out the hoover and doing some cleaning?", "please vacuum the living room"],
+  
+  "4" : ["cook food", "can you make me some food?", "do some cooking please", "can you prepare a meal?", "arrange some cooking por favor"],
+  
+  "5" : ["do laundry", "do the laundry!", "clean my clothes please", "please take care of my laundry"],
+  
+  "6" : ["do some dusting", "can you remove all the dust from the shelves?", "do some dusting", "dust dust dust"],
+  
+  "7" : ["cut the grass", "mow the lawn"]
+}
