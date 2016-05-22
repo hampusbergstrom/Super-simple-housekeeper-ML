@@ -29,9 +29,13 @@ def getKeyAndValueFromJson(input_string):
 def whatTypeOfChore():
 
     #TODO:input algorithm to filter the sentence from unneccessary words.
-    input_string = getInputAndCheckIntention()
+    input_result = getInputAndCheckIntention()
 
-    if (input_string == "resetdb"):
+    #If input_string is already in database, return
+    if input_result[1]:
+        return
+
+    if (input_result[0] == "resetdb"):
         return True
     else:
 
@@ -73,17 +77,17 @@ def whatTypeOfChore():
         clf.fit(X_train, y_train)
 
         #Array result with label ID
-        resultLabel = clf.predict(vectorizer.transform([input_string]))
+        resultLabel = clf.predict(vectorizer.transform([input_result[0]]))
 
         #Printing result
         print '-----------------------------------------------------------'
         print 'Prediction for the Naive Bayes algorithm and KNN'
         print "\n## PREDICTING INPUT STRING WITH NAIVE BAYES ALGORITHM##\n"
 
-        print 'input string: ', input_string + "\n"
+        print 'input string: ', input_result[0] + "\n"
         print 'predict label ID: ', resultLabel
         print 'predict label name: ', y_train_labels[resultLabel[0]]
-        print 'predict probabilities for Naive Bayes',  clf.predict_proba(vectorizer.transform([input_string]))
+        print 'predict probabilities for Naive Bayes',  clf.predict_proba(vectorizer.transform([input_result[0]]))
 
         print "\n\n## PREDICTING INPUT STRING WITH KNN ALGORITHM ##\n"
 
@@ -91,11 +95,11 @@ def whatTypeOfChore():
 
         clf3.fit(X_train, y_train)
 
-        resultLabel3 = clf3.predict(vectorizer.transform([input_string]))
+        resultLabel3 = clf3.predict(vectorizer.transform([input_result[0]]))
 
         print 'predict label: ', resultLabel3
         print 'predict label name: ', y_train_labels[resultLabel3[0]]
-        print 'predict probabilities for KNN',  clf3.predict_proba(vectorizer.transform([input_string]))
+        print 'predict probabilities for KNN',  clf3.predict_proba(vectorizer.transform([input_result[0]]))
 
 
         print '----------------------------------------------------------------'
@@ -106,7 +110,7 @@ def whatTypeOfChore():
         print 'Reseting the database can be done with: "resetdb" command'
         #Writes input_string to correct class in database
         if  (correctHelperForAnswer() == "correctCommand"):
-            writeToDatabase(input_string, str(resultLabel[0]))
+            writeToDatabase(input_result[0], str(resultLabel[0]))
         return True
 
 #Make logic run
