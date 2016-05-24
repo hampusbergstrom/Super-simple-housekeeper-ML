@@ -64,8 +64,10 @@ def whatTypeOfChore():
             for y in range(0, len(data[classnumber])):
                 y_train.append(x)
                 training_set.append(data[classnumber][y])
-        print training_set
-        print y_train
+        
+        #Printing not neccesary
+        #print training_set
+        #print y_train
 
         #Apply vectorizer to training data
         X_train = vectorizer.fit_transform(training_set)

@@ -115,6 +115,5 @@ def getIgnoreList():
 
     with open ('ignorelist.json', 'r') as json_file:
         data = json.load(json_file)
-        print(data)
         return data
         json_file.close()
