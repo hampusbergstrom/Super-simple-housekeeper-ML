@@ -41,7 +41,7 @@ def whatTypeOfChore():
 
         initializeIgnoreList()
         #instantiate classifier and vectorizer
-        clf = MultinomialNB(alpha = 0.01)
+        clf = MultinomialNB()
         #vectorizer = TfidfVectorizer(min_df = 1, ngram_range = (1, 2))
 
         vectorizer = CountVectorizer(analyzer = "word",
