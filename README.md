@@ -1,4 +1,4 @@
-# IISIMAGEN
+# Super simple housekeeper based on Bayes ML-algorithm
 
 ###INSTALL THESE -->
 
